@@ -34,13 +34,34 @@ var checkForMatch = function() {
   }
 };
 
-var flipCard = function(cardId) {
-  console.log("User flipped " + cards[cardId].rank);
-  cardsInPlay.push(cards[cardId].rank);
+var flipCard = function() {
+  console.log(this)
+  var cardId = this.getAttribute('data-id');
+  var card = cards[cardId]
+  this.setAttribute('src', card.cardImage);
+  console.log("User flipped " + card.rank);
+  cardsInPlay.push(card.rank);
   checkForMatch();
   console.log(cards.cardImage);
   console.log(cards.suit);
 };
 
-flipCard(0);
-flipCard(2);
+var createBoard = function() {
+  cards;
+    for (var i=0; i < cards.length; i++) {
+      console.log(cards[i].rank + cards[i].suit);
+      var cardElement = document.createElement('img');
+      cardElement.setAttribute('src', '/home/mkzarra/Desktop/fundamentals/memory_game/images/images/back.png');
+      cardElement.setAttribute('data-id', i);
+      cardElement.addEventListener('click', flipCard);
+      document.getElementById('game-board').appendChild(cardElement);
+    }
+}
+
+var recreateBoard = function(){
+  document.getElementById('game-board').innerHTML= '';
+  cardsInPlay = [];
+  createBoard();
+}
+document.getElementById('reset-button').addEventListener('click', recreateBoard);
+createBoard();
